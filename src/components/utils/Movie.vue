@@ -1,0 +1,1 @@
+<!-- Affiche un film dans une "card" boostrap appelé par MoviesList--> 

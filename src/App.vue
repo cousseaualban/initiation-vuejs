@@ -1,17 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <AmericanMovies />
+
+    <div v-if="$forceUpdate.path == '/'">
+      <!-- Si la route est / (racine du site)-->
+      <h1 class="pt-5 font-weight-light">
+        Vos films préférés sont sur VueJS Movies !
+      </h1>
+      <MoviesList :movies="movies" :loading="loading" :errored="errored" />
+    </div>
+
+    <div v-else>
+      <!-- Si la route est différente de / -->
+      <router-view :key="$forceUpdate.fullPath"></router-view>
+    </div>
+
+    <FooterApp />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AmericanMovies from "./components/AmericanMovies.vue";
 
 export default {
-  name: 'App',
+  name: "app",
   components: {
-    HelloWorld
-  }
-}
+    AmericanMovies,
+  },
+};
 </script>
 
 <style>
