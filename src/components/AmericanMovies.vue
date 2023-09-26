@@ -3,69 +3,79 @@
 <template>
   <div class="container">
     <h1>American Movies:</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Original Language</th>
-                <th scope="col">Original Title</th>
-                <th scope="col">Overview</th>
-                <th scope="col">Popularity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="americanMovie in americanMovies" v-bind:id="americanMovie.id">
-                <th scope="row">{{ americanMovie.id }}</th>
-                <td>{{ americanMovie.original_language }}</td>
-                <td>{{ americanMovie.original_title }}</td>
-                <td>{{ americanMovie.overview }}</td>
-                <td>{{ americanMovie.popularity }}</td>
-
-            </tr>
-        </tbody>
+    <table class="table" v-if="americanMovies">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Original Language</th>
+          <th scope="col">Original Title</th>
+          <th scope="col">Overview</th>
+          <th scope="col">Popularity</th>
+          <th scope="col">Poster Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="americanMovie in americanMovies.results"
+          :key="americanMovie.id"
+        >
+          <th scope="row">{{ americanMovie.id }}</th>
+          <td>{{ americanMovie.original_language }}</td>
+          <td>{{ americanMovie.original_title }}</td>
+          <td>{{ americanMovie.overview }}</td>
+          <td>{{ americanMovie.popularity }}</td>
+          <td>
+            <img
+              :src="
+                'https://image.tmdb.org/t/p/w200' + americanMovie.poster_path
+              "
+              alt="Movie Poster"
+            />
+          </td>
+        </tr>
+      </tbody>
     </table>
+    <p v-else>Loading...</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'AmericanMovies',
+  name: "AmericanMovies",
   data() {
     return {
-        americanMovies: null,
+      americanMovies: null,
     };
   },
-  created: function(){
+  created() {
+    const url =
+      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
+
     axios
-        .get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTZjMjQ5N2JjOTg0Zjk2MWFiNDJlMGE3NTdhY2NkMSIsInN1YiI6IjY1MDAzMGExMWJmMjY2MDExYzc4MTMyMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oSLjNy7huqmj7YKQUa2EzLPEkOxzsZIJ6Fa0WVEnduQ'
-            }
-        })
-        .then(res => {
-            this.americanMovies = res.data;
-        })
-  }
+      .get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYTZjMjQ5N2JjOTg0Zjk2MWFiNDJlMGE3NTdhY2NkMSIsInN1YiI6IjY1MDAzMGExMWJmMjY2MDExYzc4MTMyMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oSLjNy7huqmj7YKQUa2EzLPEkOxzsZIJ6Fa0WVEnduQ", // Remplacez par votre clé d'API
+        },
+      })
+      .then((res) => {
+        this.americanMovies = res.data;
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  },
 };
-
-// headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': 'Bearer '+TOKEN
-//         }
-
-const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
-
 </script>
 
 <style>
-    h1{
-        color: green;
-        font-size: 4em;
-    }
-    
+h1 {
+  color: green;
+  font-size: 4em;
+}
 </style>
 
 <!-- 

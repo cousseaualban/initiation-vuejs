@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AmericanMovies />
+    <TopRatedMovies />
 
     <div v-if="$forceUpdate.path == '/'">
       <!-- Si la route est / (racine du site)-->
@@ -20,12 +20,18 @@
 </template>
 
 <script>
-import AmericanMovies from "./components/AmericanMovies.vue";
+// import AmericanMovies from "./components/AmericanMovies.vue";
+  import TopRatedMovies from "./components/TopRatedMovies.vue";
+// import DetailsMovies from "./components/MovieDetails.vue";
+//  import LastMovies from "./components/LastMovies.vue";
 
 export default {
   name: "app",
   components: {
-    AmericanMovies,
+    // AmericanMovies,
+    TopRatedMovies,
+    // DetailsMovies,
+    // LastMovies,
   },
 };
 </script>
